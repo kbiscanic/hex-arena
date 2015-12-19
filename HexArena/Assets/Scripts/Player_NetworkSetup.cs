@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class Player_NetworkSetup : NetworkBehaviour
 {
 	[SyncVar] private string playerUniqueId;
 	private NetworkInstanceId playerNetId;
 	private Transform myTransform;
+
+	private NetworkClient netClient;
+	private float latency;
+	private Text latencyText;
 
 	public override void OnStartLocalPlayer ()
 	{
@@ -22,11 +27,19 @@ public class Player_NetworkSetup : NetworkBehaviour
 		myTransform = transform;
 	}
 
+	void Start () 
+	{
+		netClient = GameObject.Find ("Network Manager").GetComponent<NetworkManager> ().client;
+		latencyText = GameObject.Find ("LatencyText").GetComponent<Text> ();
+	}
+
 	void Update ()
 	{
 		if (myTransform.name == "Player(Clone)" || myTransform.name == "") {
 			SetIdentity ();
 		}
+
+		ShowLatency ();
 	}
 
 	void SetIdentity ()
@@ -57,4 +70,11 @@ public class Player_NetworkSetup : NetworkBehaviour
 		playerUniqueId = id;
 	}
 
+	void ShowLatency() 
+	{
+		if (isLocalPlayer) {
+			latency = netClient.GetRTT ();
+			latencyText.text = latency.ToString () + "ms";
+		}
+	}
 }
