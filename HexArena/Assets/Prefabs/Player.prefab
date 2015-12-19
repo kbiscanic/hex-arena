@@ -588,6 +588,7 @@ GameObject:
   - 114: {fileID: 11495122}
   - 114: {fileID: 11420872}
   - 114: {fileID: 11463906}
+  - 114: {fileID: 11481594}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1674,7 +1675,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 141546}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.2865725, y: 0.22279644, z: -4.2646346}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 459356}
@@ -2443,6 +2444,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebe5b8de1719af448c2c8bc02d3eddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11481594
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 9563148}
+  m_ParameterSendBits: 0
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &11494166
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2740,7 +2760,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_InterpolateMovement
@@ -2754,6 +2774,10 @@ Prefab:
       propertyPath: m_InterpolateRotation
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Animator
+      value: 
+      objectReference: {fileID: 9563148}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 141546}

@@ -20,6 +20,14 @@ public class Player_NetworkSetup : NetworkBehaviour
 
 		GetNetIdentity ();
 		SetIdentity ();
+
+		GetComponent<NetworkAnimator> ().SetParameterAutoSend (0, true);
+	}
+
+	public override void PreStartClient ()
+	{
+		base.PreStartClient ();
+		GetComponent<NetworkAnimator> ().SetParameterAutoSend (0, true);
 	}
 
 	void Awake ()
