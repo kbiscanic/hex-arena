@@ -6,7 +6,7 @@ public class ConstantManager : MonoBehaviour {
 	public const string playerTag = "Player";
 	public const string projectileTag = "Projectile";
 
-	public const float platformDeathTimer = 5.0f;
+	public const float platformDeathTimer = 4.0f;
 	public const float platformFadeTimer = 1.0f;
 
 	// Use this for initialization

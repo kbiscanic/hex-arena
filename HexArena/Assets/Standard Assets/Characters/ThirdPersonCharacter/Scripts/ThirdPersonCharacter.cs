@@ -29,6 +29,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		CapsuleCollider m_Capsule;
 		bool m_Crouching;
 
+		Camera myCamera;
 
 		void Start()
 		{
@@ -40,6 +41,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 			m_Rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
+
+			myCamera = this.GetComponentInChildren<Camera> ();
+			if (myCamera != null) {
+				GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera>().enabled = false;
+				myCamera.enabled = true;
+			}
 		}
 
 
@@ -204,11 +211,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			RaycastHit hitInfo;
 #if UNITY_EDITOR
 			// helper to visualise the ground check ray in the scene view
-			Debug.DrawLine(transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance));
+			Debug.DrawLine (transform.position + (Vector3.up * 0.1f), transform.position + (Vector3.up * 0.1f) + (Vector3.down * m_GroundCheckDistance));
 #endif
-			// 0.1f is a small offset to start the ray from inside the character
-			// it is also good to note that the transform position in the sample assets is at the base of the character
-			if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, m_GroundCheckDistance))
+
+			bool grounded = Physics.Raycast (transform.position + (Vector3.up * 0.1f), Vector3.down + new Vector3 (Random.value, 0, Random.value), out hitInfo, m_GroundCheckDistance);
+			if (!grounded) {
+				// check again; the character might get stuck on a collider in mid-air if raycasting misses it
+				grounded = Physics.Raycast (transform.position + (Vector3.up * 0.1f), Vector3.down + new Vector3 (Random.value, 0, Random.value), out hitInfo, m_GroundCheckDistance);
+			}
+
+			if (grounded)
 			{
 				m_GroundNormal = hitInfo.normal;
 				m_IsGrounded = true;

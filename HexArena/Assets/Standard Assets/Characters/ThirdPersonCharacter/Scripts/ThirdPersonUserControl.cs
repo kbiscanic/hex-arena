@@ -16,12 +16,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         
         private void Start()
         {
+
+
+			m_Cam = this.GetComponentInChildren<Camera> ().transform;
+
             // get the transform of the main camera
-            if (Camera.main != null)
+			if (m_Cam == null)
             {
                 m_Cam = Camera.main.transform;
             }
-            else
+            
+			if (m_Cam == null)
             {
                 Debug.LogWarning(
                     "Warning: no main camera found. Third person character needs a Camera tagged \"MainCamera\", for camera-relative controls.");
