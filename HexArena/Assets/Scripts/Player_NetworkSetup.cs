@@ -15,7 +15,7 @@ public class Player_NetworkSetup : NetworkBehaviour
 
 	public override void OnStartLocalPlayer ()
 	{
-		tag = "Player";
+		//tag = "Player";
 		GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl> ().enabled = true;
 
 		GetNetIdentity ();
@@ -43,7 +43,7 @@ public class Player_NetworkSetup : NetworkBehaviour
 
 	void Update ()
 	{
-		if (myTransform.name == "Player(Clone)" || myTransform.name == "") {
+		if (myTransform.name.Contains("Clone") || myTransform.name == "") {
 			SetIdentity ();
 		}
 
