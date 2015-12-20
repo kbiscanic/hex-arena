@@ -11,10 +11,12 @@ public class GameOverScreen : MonoBehaviour {
 
 	}
 
+	/*
 	// Update is called once per frame
 	void Update () {
 		screenDuration -= Time.deltaTime;
 		if (screenDuration <= 0 || Input.anyKey)
 			Application.LoadLevel (mainMenuSceneName);
 	}
+	*/
 }
