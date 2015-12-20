@@ -63,6 +63,8 @@ public class GameOptionsManager : MonoBehaviour {
     }
 
     public void ShowOptions() {
+		Debug.Log (gameOptionsContainer);
+
         masterVolumeSlider.value = masterVolume;
         muteMasterToggle.isOn = masterAudioMuted;
         backgroundVolumeSlider.value = backgroundVolume;
