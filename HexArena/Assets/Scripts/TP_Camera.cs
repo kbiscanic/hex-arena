@@ -109,7 +109,6 @@ public class TP_Camera : MonoBehaviour
 	public static void UseExistingOrCreateNewMainCamera (GameObject target)
 	{
 		GameObject tempCamera;
-		GameObject targetLookAt;
 		TP_Camera myCamera;
 
 		if (Camera.main != null) {
@@ -125,13 +124,6 @@ public class TP_Camera : MonoBehaviour
 			tempCamera.AddComponent <TP_Camera> ();
 
 			myCamera = tempCamera.GetComponent<TP_Camera> ();
-		}
-
-		targetLookAt = GameObject.FindWithTag ("Player");
-
-		if (targetLookAt == null) {
-			targetLookAt = new GameObject ("targetLookAt");
-			targetLookAt.transform.position = Vector3.zero;
 		}
 
 		myCamera.TargetLookAt = target.transform;

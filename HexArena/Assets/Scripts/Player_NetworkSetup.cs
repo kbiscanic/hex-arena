@@ -15,7 +15,7 @@ public class Player_NetworkSetup : NetworkBehaviour
 
 	public override void OnStartLocalPlayer ()
 	{
-		//tag = "Player";
+		this.tag = ConstantManager.playerTag;
 		GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl> ().enabled = true;
 
 		GetNetIdentity ();

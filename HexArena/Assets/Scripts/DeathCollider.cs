@@ -16,11 +16,7 @@ public class DeathCollider : MonoBehaviour {
 	}
 
 	IEnumerator killPlayer(GameObject player){
-		Camera characterCamera = player.GetComponentInChildren<Camera> ();
-		if (characterCamera != null && characterCamera.enabled) {
-			characterCamera.enabled = false;
-			GameObject.FindGameObjectWithTag ("MainCamera").GetComponent<Camera>().enabled = true;
-		}
+		Destroy (player);
 
 		yield return new WaitForSeconds (3);
 
