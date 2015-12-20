@@ -1,25 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class MainMenuScreen : MonoBehaviour {
 
-	public string gameSceneName = "GameScene";
+    public int gameSceneId = 1;
 
-	// Use this for initialization
-	void Start () {
+    public void NewGame() {
+        SceneManager.LoadScene(gameSceneId);
+    }
 
-	}
-
-	// Update is called once per frame
-	void Update () {
-
-	}
-
-	public void newGame(){
-		Application.LoadLevel(gameSceneName);
-	}
-
-	public void quitGame(){
+    public void QuitGame() {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
 		Application.Quit();
-	}
+#endif
+    }
 }
