@@ -54,7 +54,7 @@ public class TP_Camera : MonoBehaviour
 
 	void HandlePlayerInput ()
 	{
-		var deadZone = 0.1f;
+		var deadZone = 0.01f;
 
 		if (Input.GetMouseButton (1)) {
 			mouseX += Input.GetAxis ("Mouse X") * X_MouseSensitivity;
