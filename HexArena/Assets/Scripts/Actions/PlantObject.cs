@@ -30,7 +30,7 @@ public class PlantObject : Action {
 		if (currentCooldown <= 0) {
 			Debug.Log (description + " cast.");
 
-			//playerAnimator.SetTrigger ("CastDirectProjectile");
+			playerAnimator.SetTrigger ("PlantObject");
 
 			Transform spawnLocation = findFirstDescendantWithName (player.transform, "RightHand"); // TODO modify?
 			GameObject plantedObject = Instantiate (objectPrefab, spawnLocation.position, Quaternion.identity) as GameObject;
@@ -47,6 +47,7 @@ public class PlantObject : Action {
 		yield return new WaitForSeconds (castingTime);
 		if (plantedObject != null){
 			plantedObject.transform.SetParent (null);
+			plantedObject.GetComponent<Rigidbody> ().useGravity = true;
 		}
 	}
 
