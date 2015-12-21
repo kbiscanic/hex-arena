@@ -7,6 +7,7 @@ public class LaunchDirectProjectile : Action {
 
 	GameObject player;
 	GameObject enemy;
+	Animator playerAnimator;
 
 	// Use this for initialization
 	void Start () {
@@ -24,11 +25,15 @@ public class LaunchDirectProjectile : Action {
 			player = GameObject.FindGameObjectWithTag (ConstantManager.playerTag);
 		if (enemy == null)
 			enemy = GameObject.FindGameObjectWithTag (ConstantManager.enemyTag);
+		if (playerAnimator == null && player != null)
+			playerAnimator = player.GetComponent<Animator> ();
 	}
 
 	public override void Execute(){
 		if (currentCooldown <= 0 && enemy != null) {
 			Debug.Log (description + " cast.");
+
+			playerAnimator.SetTrigger ("CastDirectProjectile");
 
 			Transform spawnLocation = findFirstDescendantWithName (player.transform, "LeftHand"); // TODO modify?
 			GameObject projectile = Instantiate (projectilePrefab, spawnLocation.position, Quaternion.identity) as GameObject;
