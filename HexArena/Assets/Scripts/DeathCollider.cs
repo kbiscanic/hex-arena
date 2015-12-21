@@ -27,8 +27,10 @@ public class DeathCollider : MonoBehaviour {
 		if (other.tag == ConstantManager.playerTag) {
 			StartCoroutine (killPlayer (other.gameObject));
 		}
-
-		if (other.tag == ConstantManager.projectileTag) {
+		else if (other.tag == ConstantManager.enemyTag) {
+			Destroy (other.gameObject);
+		}
+		else if (other.tag == ConstantManager.projectileTag) {
 			Destroy(other.gameObject);
 		}
 	}

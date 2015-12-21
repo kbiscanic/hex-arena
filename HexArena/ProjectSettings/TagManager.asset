@@ -7,6 +7,7 @@ TagManager:
   - Platform
   - Projectile
   - Death Collider
+  - Enemy
   layers:
   - Default
   - TransparentFX
