@@ -60,10 +60,14 @@ public class HexPlatform : MonoBehaviour {
 		
 		if (otherObject.tag == ConstantManager.projectileTag && state == State.Alive) {
 			// example; can depend on projectile type or whatever else
-			state = State.Dying;
-			fadeTimer = ConstantManager.platformFadeTimer;
-			this.GetComponentInChildren<Collider> ().enabled = false;
+			killPlatform();
 		}
+	}
+
+	public void killPlatform(){
+		state = State.Dying;
+		fadeTimer = ConstantManager.platformFadeTimer;
+		this.GetComponentInChildren<Collider> ().enabled = false;
 	}
 
 }

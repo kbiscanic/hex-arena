@@ -7,6 +7,7 @@ public class ConstantManager : MonoBehaviour {
 	public const string playerTag = "Player";
 	public const string enemyTag = "Enemy";
 	public const string projectileTag = "Projectile";
+	public const string platformTag = "Platform";
 
 	// duration constants
 	public const float platformDeathTimer = 4.0f;

@@ -50,13 +50,15 @@ public class LaunchDirectProjectile : Action {
 
 	IEnumerator launch(GameObject projectile){
 		yield return new WaitForSeconds (castingTime);
-		projectile.transform.SetParent (null);
-		Movement movement = projectile.GetComponentInChildren<Movement> ();
-		if (movement == null) {
-			Debug.LogWarning (
-				"The projectile prefab supplied for " + description + " is missing a movement script.");
-		} else {
-			movement.setTarget(findFirstDescendantWithName(enemy.transform, "Neck").position); // TODO modify?
+		if (projectile != null) {
+			projectile.transform.SetParent (null);
+			Movement movement = projectile.GetComponentInChildren<Movement> ();
+			if (movement == null) {
+				Debug.LogWarning (
+					"The projectile prefab supplied for " + description + " is missing a movement script.");
+			} else {
+				movement.setTarget (findFirstDescendantWithName (enemy.transform, "Neck").position); // TODO modify?
+			}
 		}
 	}
 
