@@ -13,9 +13,8 @@ public class BasicProjectile : MonoBehaviour {
 	
 	}
 
-	void onTriggerEnter(Collider other){
+	void OnTriggerEnter(Collider other){
 		if (other.tag != ConstantManager.playerTag)
-			Destroy (this);
-		print (other.name);
+			Destroy (this.gameObject);
 	}
 }
