@@ -23,4 +23,8 @@ public class Movement : MonoBehaviour {
 		target = _target;
 		direction = (target - this.transform.position).normalized;
 	}
+
+	public void setDirection(Vector3 _direction){
+		direction = _direction.normalized;
+	}
 }

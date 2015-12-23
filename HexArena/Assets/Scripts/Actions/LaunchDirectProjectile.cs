@@ -57,8 +57,9 @@ public class LaunchDirectProjectile : Action {
 				Debug.LogWarning (
 					"The projectile prefab supplied for " + description + " is missing a movement script.");
 			} else {
-				//movement.setTarget (findFirstDescendantWithName (enemy.transform, "Neck").position); // TODO modify?
-				movement.setTarget(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)));
+				//movement.setTarget (findFirstDescendantWithName (enemy.transform, "Neck").position); // enemy target version
+				//movement.setTarget(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10))); // mouse aim version
+				movement.setDirection(player.transform.forward); // forward launch version
 			}
 		}
 	}

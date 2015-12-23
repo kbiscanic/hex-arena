@@ -305,6 +305,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 66887458}
+  - 114: {fileID: 66887459}
   m_Layer: 0
   m_Name: PlatformGrid
   m_TagString: Untagged
@@ -328,6 +329,23 @@ Transform:
   - {fileID: 1871735752}
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &66887459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 66887457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f63ec4e7e674cd4f8ea7703540125fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformGenericName: HexPlatform
+  autoActivateSuddenDeath: 30
+  spreadInterval: 2
+  spreadCountPerTick: 2
+  platformDeathTime: 1
+  spreadTime: 0
 --- !u!1001 &100775585
 Prefab:
   m_ObjectHideFlags: 0

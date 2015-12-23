@@ -73,6 +73,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			if (Input.GetKey(KeyCode.LeftShift)){
 				m_Move *= 0.5f;
 			}
+			else if (h != 0 && v != 0){
+				m_Move *= 2;
+			}
 #endif
 
             // pass all parameters to the character control script
