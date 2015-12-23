@@ -51,21 +51,25 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		}
 
 
-		public void Move(Vector3 move, bool crouch, bool jump)
+		public void Move(Vector3 move, Vector3 cam_forward, bool crouch, bool jump)
 		{
 
 			// convert the world relative moveInput vector into a local-relative
 			// turn amount and forward amount required to head in the desired
 			// direction.
+
 			if (move.magnitude > 1f) move.Normalize();
 			move = transform.InverseTransformDirection(move);
 			CheckGroundStatus();
 			move = Vector3.ProjectOnPlane(move, m_GroundNormal);
-			m_TurnAmount = Mathf.Atan2(move.x, move.z);
+			//m_TurnAmount = Mathf.Atan2(move1.x, move1.z);
+			m_TurnAmount = Vector3.Angle(this.transform.forward.normalized, cam_forward);
+			//transform.Rotate (0, m_TurnAmount * Time.deltaTime * 5, 0);
+			transform.rotation = Quaternion.LookRotation(cam_forward, new Vector3(0, 1, 0));
 			m_ForwardAmount = move.z;
 			m_StrafeAmount = move.x;
 
-			ApplyExtraTurnRotation();
+		///	ApplyExtraTurnRotation();
 
 			// control and velocity handling is different when grounded and airborne:
 			if (m_IsGrounded)
