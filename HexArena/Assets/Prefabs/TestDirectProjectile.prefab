@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6145b390cb3e1a4eacff7c1531e649a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackDamage: 1
 --- !u!114 &11458162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,7 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0084622293aec244aa9d610ead149ee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: {x: 3, y: 3, z: 3}
+  speed: {x: 5, y: 5, z: 5}
   target: {x: 0, y: 0, z: 0}
 --- !u!135 &13555782
 SphereCollider:
@@ -126,15 +127,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: speed.x
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed.y
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: speed.z
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsTrigger

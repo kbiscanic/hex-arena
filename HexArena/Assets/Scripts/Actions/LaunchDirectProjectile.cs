@@ -6,7 +6,7 @@ public class LaunchDirectProjectile : Action {
 	public GameObject projectilePrefab;
 
 	GameObject player;
-	GameObject enemy;
+	//GameObject enemy;
 	Animator playerAnimator;
 
 	// Use this for initialization
@@ -23,14 +23,14 @@ public class LaunchDirectProjectile : Action {
 
 		if (player == null) 
 			player = GameObject.FindGameObjectWithTag (ConstantManager.playerTag);
-		if (enemy == null)
-			enemy = GameObject.FindGameObjectWithTag (ConstantManager.enemyTag);
+	//	if (enemy == null)
+	//		enemy = GameObject.FindGameObjectWithTag (ConstantManager.enemyTag);
 		if (playerAnimator == null && player != null)
 			playerAnimator = player.GetComponent<Animator> ();
 	}
 
 	public override void Execute(){
-		if (currentCooldown <= 0 && enemy != null) {
+		if (currentCooldown <= 0/* && enemy != null*/) {
 			Debug.Log (description + " cast.");
 
 			playerAnimator.SetTrigger ("CastDirectProjectile");
@@ -41,8 +41,8 @@ public class LaunchDirectProjectile : Action {
 			StartCoroutine (launch (projectile));
 
 			currentCooldown = cooldown;
-		} else if (enemy == null) {
-			Debug.Log (description + " no target.");
+		//} else if (enemy == null) {
+		//	Debug.Log (description + " no target.");
 		} else {
 			Debug.Log (description + " on cooldown.");
 		}
@@ -57,7 +57,8 @@ public class LaunchDirectProjectile : Action {
 				Debug.LogWarning (
 					"The projectile prefab supplied for " + description + " is missing a movement script.");
 			} else {
-				movement.setTarget (findFirstDescendantWithName (enemy.transform, "Neck").position); // TODO modify?
+				//movement.setTarget (findFirstDescendantWithName (enemy.transform, "Neck").position); // TODO modify?
+				movement.setTarget(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)));
 			}
 		}
 	}

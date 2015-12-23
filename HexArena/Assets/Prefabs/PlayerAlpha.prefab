@@ -2024,7 +2024,7 @@ Animator:
   m_GameObject: {fileID: 177922}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: ba7f513a199d49745b8a2d939a3c399e, type: 3}
-  m_Controller: {fileID: 9100000, guid: dc2b42534a4c00a46b66c307ec57362a, type: 2}
+  m_Controller: {fileID: 9100000, guid: 26bdf8f747a28d54eab005e8814edd9e, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2116,6 +2116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402b40ffc6468b24789a20c3b6afbe52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 6
 --- !u!114 &11473052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2416,10 +2417,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: dc2b42534a4c00a46b66c307ec57362a, type: 2}
+      objectReference: {fileID: 9100000, guid: 26bdf8f747a28d54eab005e8814edd9e, type: 2}
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
