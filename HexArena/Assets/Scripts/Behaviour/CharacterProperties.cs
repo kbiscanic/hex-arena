@@ -27,6 +27,8 @@ public class CharacterProperties : NetworkBehaviour
 	private GameOptionsManager gom; 
 	private GameObject loserPanel;
 
+	private float globalCooldown = 0.0f;
+
 	private ThirdPersonCharacter tpc;
 
 	// Use this for initialization
@@ -62,13 +64,18 @@ public class CharacterProperties : NetworkBehaviour
 			tpc = GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter> ();
 		}
 
-		if (tpc == null || !tpc.m_IsGrounded || tpc.m_Crouching) {
+		if (this.globalCooldown > 0) {
+			this.globalCooldown -= Time.deltaTime;
+		}
+
+		if (tpc == null || !tpc.m_IsGrounded || tpc.m_Crouching || this.globalCooldown > 0) {
 			return;
 		}
 
 		foreach(Action action in actions){
 			if (Input.GetKeyDown (action.key)) {
 				action.Execute ();
+				this.globalCooldown += action.castingTime * 2;
 			}
 		}
 	}
