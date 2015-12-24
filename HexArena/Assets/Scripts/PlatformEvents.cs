@@ -40,6 +40,7 @@ public class PlatformEvents : NetworkBehaviour {
 				GameObject go = Instantiate (platformPrefab, new Vector3 (pos.x, 0, pos.y), Quaternion.identity) as GameObject;
 				go.name = platformGenericName + " (" + i + ", " + j + ")";
 				go.transform.SetParent (this.transform);
+				NetworkServer.Spawn (go);
 				platformList.Add (go);
 			}
 		}
