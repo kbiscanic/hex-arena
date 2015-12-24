@@ -4,6 +4,8 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
+using UnityStandardAssets.Characters.ThirdPerson;
+
 public class CharacterProperties : NetworkBehaviour
 {
 
@@ -17,6 +19,8 @@ public class CharacterProperties : NetworkBehaviour
 
 	private Text playerHealth;
 	private Text enemyHealth;
+
+	private ThirdPersonCharacter tpc;
 
 	// Use this for initialization
 	void Start ()
@@ -40,6 +44,14 @@ public class CharacterProperties : NetworkBehaviour
 
 		if ((speedModifierDuration -= Time.deltaTime) <= 0) {
 			speedModifier = 1; // TODO
+		}
+
+		if (tpc == null) {
+			tpc = GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonCharacter> ();
+		}
+
+		if (tpc == null || !tpc.m_IsGrounded || tpc.m_Crouching) {
+			return;
 		}
 
 		foreach(Action action in actions){
