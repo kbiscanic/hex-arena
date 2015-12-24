@@ -3,6 +3,9 @@ using System.Collections;
 
 public class ConstantManager : MonoBehaviour {
 
+	public const int platformRowCount = 10;
+	public const int platformColCount = 10;
+
 	// object tags
 	public const string playerTag = "Player";
 	public const string enemyTag = "Enemy";

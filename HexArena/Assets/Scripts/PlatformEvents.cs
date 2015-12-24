@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PlatformEvents : NetworkBehaviour {
+	public GameObject platformPrefab;
 	[Tooltip("All platforms will be renamed to this")]
 	public string platformGenericName = "HexPlatform"; // + platform index
 
@@ -14,22 +15,42 @@ public class PlatformEvents : NetworkBehaviour {
 	public float platformDeathTime = 1f;
 
 	GameObject[] platforms;
+	float platformRadius;
 	bool spreadingDeath = false;
 	float spreadTime = 0;
 	float mudTime = 8f; // initial spawning offset
 	float iceTime = 4f; // initial spawning offset
 	int spreadCount = 0;
+	float offsetX, offsetY; // hex spawning offsets
 
 	// Use this for initialization
 	void Start () {
 		if (!isServer) {
 			return;
 		}
-			platforms = GameObject.FindGameObjectsWithTag (ConstantManager.platformTag);
-			for (int i = 0; i < platforms.Length; i++)
-				platforms [i].name = platformGenericName + " " + i;
 
-			print (platforms.Length + " platforms found in total. Renaming.");
+		platformRadius = platformPrefab.GetComponentInChildren<MeshRenderer> ().bounds.extents.x; // should be symmetrical
+		offsetX = platformRadius * 1.5f;
+		offsetY = platformRadius * Mathf.Sqrt(3);
+
+		List<GameObject> platformList = new List<GameObject> ();
+		for (int i = 0; i < ConstantManager.platformRowCount; i++) {
+			for (int j = 0; j < ConstantManager.platformColCount; j++) {
+				Vector2 pos = HexOffset (i, j);
+				GameObject go = Instantiate (platformPrefab, new Vector3 (pos.x, 0, pos.y), Quaternion.identity) as GameObject;
+				go.name = platformGenericName + " (" + i + ", " + j + ")";
+				go.transform.SetParent (this.transform);
+				platformList.Add (go);
+			}
+		}
+		platforms = platformList.ToArray ();
+
+					/*
+		platforms = GameObject.FindGameObjectsWithTag (ConstantManager.platformTag);
+		for (int i = 0; i < platforms.Length; i++)
+			platforms [i].name = platformGenericName + " " + i;
+
+		print (platforms.Length + " platforms found in total. Renaming.");*/
 	}
 	
 	// Update is called once per frame
@@ -61,6 +82,13 @@ public class PlatformEvents : NetworkBehaviour {
 				platforms [platformIndex].GetComponent<HexPlatform>().makeIcy ();
 			}
 		}
+	}
+
+	private Vector2 HexOffset(int x, int y){
+		if (x % 2 != 0)
+			return new Vector2 (x * offsetX, (y + 0.5f) * offsetY);
+		else
+			return new Vector2 (x * offsetX, y * offsetY);
 	}
 
 	public void activateDeathSpread(Vector3 origin){

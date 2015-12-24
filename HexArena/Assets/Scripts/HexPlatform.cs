@@ -44,7 +44,6 @@ public class HexPlatform : NetworkBehaviour {
 			tmp.a = fadeTimer / ConstantManager.platformFadeTimer;
 
 			this.color = tmp;
-
 			rend.material.SetColor ("_Color", this.color);
 
 			if (fadeTimer <= 0) {
@@ -58,7 +57,6 @@ public class HexPlatform : NetworkBehaviour {
 			tmp.a = 1 - fadeTimer / ConstantManager.platformFadeTimer;
 
 			this.color = tmp;
-
 			rend.material.SetColor ("_Color", this.color);
 
 			if (fadeTimer <= 0) {
