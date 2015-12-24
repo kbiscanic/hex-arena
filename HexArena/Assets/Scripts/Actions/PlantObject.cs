@@ -7,7 +7,6 @@ public class PlantObject : Action {
 	public GameObject objectPrefab;
 
 	GameObject player;
-	NetworkAnimator playerAnimator;
 
 	// Use this for initialization
 	public override void Start () {
@@ -25,15 +24,11 @@ public class PlantObject : Action {
 
 		if (player == null) 
 			player = GameObject.FindGameObjectWithTag (ConstantManager.playerTag);
-		if (playerAnimator == null && player != null)
-			playerAnimator = player.GetComponent<NetworkAnimator> ();
 	}
 
 	public override void Execute(){
 		if (currentCooldown <= 0) {
 			Debug.Log (description + " cast.");
-
-			playerAnimator.SetTrigger ("PlantObject");
 
 			CmdPlant (player);
 
@@ -56,6 +51,11 @@ public class PlantObject : Action {
 		Destroy(plantedObject, 15.0f);
 	}
 */
+	[ClientRpc]
+	void RpcAnimate (string playerName, string triggerName)
+	{
+		GameObject.Find (playerName).GetComponent<Animator> ().SetTrigger (triggerName);
+	}
 
 	[Command]
 	void CmdPlant(GameObject player){
@@ -63,6 +63,8 @@ public class PlantObject : Action {
 
 		if (platform != null)
 			platform.GetComponent<HexPlatform> ().Invoke ("makeExplosive", castingTime);
+
+		RpcAnimate (player.name, "PlantObject");
 	}
 
 	private GameObject findClosestPlatform(Vector3 pos){

@@ -8,8 +8,6 @@ public class LaunchDirectProjectile : Action
 	public GameObject projectilePrefab;
 
 	GameObject player;
-	//GameObject enemy;
-	NetworkAnimator playerAnimator;
 
 	// Use this for initialization
 	public override void Start ()
@@ -25,23 +23,16 @@ public class LaunchDirectProjectile : Action
 	// Update is called once per frame
 	public override void Update ()
 	{
-
 		base.Update ();
 
 		if (player == null)
 			player = GameObject.FindGameObjectWithTag (ConstantManager.playerTag);
-		//	if (enemy == null)
-		//		enemy = GameObject.FindGameObjectWithTag (ConstantManager.enemyTag);
-		if (playerAnimator == null && player != null)
-			playerAnimator = player.GetComponent<NetworkAnimator> ();
 	}
 
 	public override void Execute ()
 	{
 		if (currentCooldown <= 0/* && enemy != null*/) {
 			Debug.Log (description + " cast.");
-
-			playerAnimator.SetTrigger ("CastDirectProjectile");
 
 			CmdSpawnProjectile (player, player.transform.forward);
 
@@ -53,6 +44,13 @@ public class LaunchDirectProjectile : Action
 		}
 	}
 
+	[ClientRpc]
+	void RpcAnimate (string playerName, string triggerName)
+	{
+		Debug.Log ("Animate");
+		GameObject.Find (playerName).GetComponent<Animator> ().SetTrigger (triggerName);
+	}
+
 	[Command]
 	void CmdSpawnProjectile (GameObject player, Vector3 direction)
 	{
@@ -62,6 +60,8 @@ public class LaunchDirectProjectile : Action
 		NetworkServer.Spawn (projectile);
 		projectile.GetComponent<BasicProjectile> ().owner = player.name;
 		StartCoroutine (launch (projectile, direction));
+
+		RpcAnimate (player.name, "CastDirectProjectile");
 
 		Debug.Log (projectile);
 
