@@ -42,7 +42,7 @@ public class PlantObject : Action {
 			Debug.Log (description + " on cooldown.");
 		}
 	}
-
+/* mine planting version
 	[Command]
 	void CmdPlant(GameObject player){
 		Transform spawnLocation = findFirstDescendantWithName (player.transform, "RightHand"); // TODO modify?
@@ -55,7 +55,32 @@ public class PlantObject : Action {
 
 		Destroy(plantedObject, 15.0f);
 	}
+*/
 
+	[Command]
+	void CmdPlant(GameObject player){
+		GameObject platform = findClosestPlatform (player.transform.position);
+
+		if (platform != null)
+			platform.GetComponent<HexPlatform> ().Invoke ("makeExplosive", castingTime);
+	}
+
+	private GameObject findClosestPlatform(Vector3 pos){
+		GameObject[] platforms = GameObject.FindGameObjectsWithTag (ConstantManager.platformTag);
+		float dist = 5;
+		GameObject closest = null;
+
+		foreach (GameObject go in platforms) {
+			float temp = Vector3.Distance (go.transform.position, pos);
+			if (temp <= dist) {
+				dist = temp;
+				closest = go;
+			}
+		}
+
+		return closest;
+	}
+	/*
 	IEnumerator plant(GameObject plantedObject){
 		yield return new WaitForSeconds (castingTime);
 		if (plantedObject != null){
@@ -63,7 +88,7 @@ public class PlantObject : Action {
 			plantedObject.GetComponent<Rigidbody> ().useGravity = true;
 		}
 	}
-
+*/
 	// TODO move to utility or static or ...
 	private Transform findFirstDescendantWithName(Transform current, string name){
 		foreach (Transform child in current) {

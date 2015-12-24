@@ -9,7 +9,7 @@ public class HexPlatform : NetworkBehaviour {
 	}
 
 	enum Effect {
-		None, Plagued, Muddy, Icy
+		None, Plagued, Muddy, Icy, Explosive
 	}
 
 	public Color defaultColor;
@@ -77,11 +77,18 @@ public class HexPlatform : NetworkBehaviour {
 			effect = Effect.None;
 			rend.material.SetColor ("_Color", defaultColor);
 			this.color = defaultColor;
-		}
-		else if (effect == Effect.Icy && (effectTimer -= Time.deltaTime) <= 0) {
+		} else if (effect == Effect.Icy && (effectTimer -= Time.deltaTime) <= 0) {
 			effect = Effect.None;
 			rend.material.SetColor ("_Color", defaultColor);
 			this.color = defaultColor;
+		} else if (effect == Effect.Explosive && (effectTimer -= Time.deltaTime) <= 0) {
+			effect = Effect.None;
+			rend.material.SetColor ("_Color", defaultColor);
+			this.color = defaultColor;
+			killPlatform ();
+			GameObject[] closest = GameObject.FindGameObjectWithTag (ConstantManager.platformGridTag).GetComponent<PlatformEvents> ().sortedRelativeTo (this.transform.position);
+			for (int i = 1; i <= ConstantManager.explosiveAdjacentCount && i < closest.Length; i++)
+				closest [i].GetComponent<HexPlatform> ().killPlatform ();
 		}
 	}
 
@@ -168,6 +175,18 @@ public class HexPlatform : NetworkBehaviour {
 		effectTimer = ConstantManager.icyDuration;
 
 		Color temp = ConstantManager.ToColor (ConstantManager.icyColor);
+		rend.material.SetColor ("_Color", temp);
+		this.color = temp;
+	}
+
+	public void makeExplosive(){
+		if (this.effect != Effect.None || this.state != State.Alive)
+			return;
+
+		this.effect = Effect.Explosive;
+		effectTimer = ConstantManager.explosiveDuration;
+
+		Color temp = ConstantManager.ToColor (ConstantManager.explosiveColor);
 		rend.material.SetColor ("_Color", temp);
 		this.color = temp;
 	}

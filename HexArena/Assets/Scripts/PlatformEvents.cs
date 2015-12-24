@@ -85,6 +85,18 @@ public class PlatformEvents : NetworkBehaviour {
 		}
 	}
 
+	public GameObject[] sortedRelativeTo(Vector3 pos){
+		List<GameObject> temp = new List<GameObject> ();
+		foreach (GameObject go in platforms)
+			temp.Add (go);
+		temp.Sort(delegate(GameObject c1, GameObject c2){
+			return Vector3.Distance(pos, c1.transform.position).CompareTo
+				((Vector3.Distance(pos, c2.transform.position)));   
+		});
+
+		return temp.ToArray ();
+	}
+
 	private Vector2 HexOffset(int x, int y){
 		if (x % 2 != 0)
 			return new Vector2 (x * offsetX, (y + 0.5f) * offsetY);
@@ -97,15 +109,8 @@ public class PlatformEvents : NetworkBehaviour {
 		spreadCount = 0;
 		spreadTime = 0;
 
-		List<GameObject> temp = new List<GameObject> ();
-		foreach (GameObject go in platforms)
-			temp.Add (go);
-		temp.Sort(delegate(GameObject c1, GameObject c2){
-			return Vector3.Distance(origin, c1.transform.position).CompareTo
-				((Vector3.Distance(origin, c2.transform.position)));   
-		});
+		platforms = sortedRelativeTo (origin);
 
-		platforms = temp.ToArray ();
 		if (platforms.Length > 0) {
 			StartCoroutine(platforms [0].GetComponent<HexPlatform> ().makePlagued (platformDeathTime));
 			spreadCount++;

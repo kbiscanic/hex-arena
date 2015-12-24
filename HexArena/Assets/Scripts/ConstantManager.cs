@@ -11,6 +11,7 @@ public class ConstantManager : MonoBehaviour {
 	public const string enemyTag = "Enemy";
 	public const string projectileTag = "Projectile";
 	public const string platformTag = "Platform";
+	public const string platformGridTag = "Platform Grid";
 
 	// duration constants
 	public const float platformDeathTimer = 4.0f;
@@ -30,6 +31,11 @@ public class ConstantManager : MonoBehaviour {
 	public const float icyDuration = 9.98f;
 	public const float icySpawnInterval = 10f;
 	public const int icyCountPerTick = 2;
+
+	public const int explosiveColor = 0xC80000;
+	public const float explosiveDuration = 2f;
+	public const int explosiveAdjacentCount = 6;
+
 
 	public const int plaguedColor = 0xC80000;
 
