@@ -11,14 +11,18 @@ public class CharacterProperties : NetworkBehaviour
 
 	public List<Action> actions;
 
+	public Sprite[] hpImages;
+
 	public int maxHealth = 1;
 	[SyncVar (hook = "OnHealthChanged")] int health;
 
 	public float speedModifier = 1;
 	float speedModifierDuration;
 
-	private Text playerHealth;
-	private Text enemyHealth;
+	private Image playerHp;
+	private Image enemyHp;
+//	private Text playerHealth;
+//	private Text enemyHealth;
 
 	private GameOptionsManager gom; 
 	private GameObject loserPanel;
@@ -28,8 +32,11 @@ public class CharacterProperties : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		playerHealth = GameObject.Find ("PlayerHealth").GetComponent<Text> ();
-		enemyHealth = GameObject.Find ("EnemyHealth").GetComponent<Text> ();
+	//	playerHealth = GameObject.Find ("PlayerHealth").GetComponent<Text> ();
+	//	enemyHealth = GameObject.Find ("EnemyHealth").GetComponent<Text> ();
+
+		playerHp = GameObject.Find ("PlayerHP").GetComponent<Image> ();
+		enemyHp = GameObject.Find ("EnemyHP").GetComponent<Image> ();
 
 		gom = GameObject.Find ("_Game Options Manager_").GetComponent<GameOptionsManager> ();
 
@@ -105,13 +112,15 @@ public class CharacterProperties : NetworkBehaviour
 
 	void ShowHP ()
 	{
-		if (playerHealth == null || enemyHealth == null)
-			return;
+		//if (playerHealth == null || enemyHealth == null)
+		//	return;
 
 		if (isLocalPlayer) {
-			playerHealth.text = health.ToString () + "HP";
+			playerHp.overrideSprite = hpImages[health];
+		//	playerHealth.text = health.ToString () + "HP";
 		} else {
-			enemyHealth.text = health.ToString () + "HP";
+			enemyHp.overrideSprite = hpImages[health];
+			//enemyHealth.text = health.ToString () + "HP";
 		}
 	}
 }

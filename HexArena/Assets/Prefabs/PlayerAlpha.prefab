@@ -2139,6 +2139,14 @@ MonoBehaviour:
   - {fileID: 11499008}
   - {fileID: 11454460}
   - {fileID: 11407080}
+  hpImages:
+  - {fileID: 0}
+  - {fileID: 21300000, guid: fa87adb8d60a8584aa83ae3bb6fcebdf, type: 3}
+  - {fileID: 21300000, guid: 2f9f3e312066e9e499c75ec3e2fcdb38, type: 3}
+  - {fileID: 21300000, guid: 071f7153d995cc14aaed6337bdfccfde, type: 3}
+  - {fileID: 21300000, guid: 8bcd8ce3283592b4a8df0100e195c59c, type: 3}
+  - {fileID: 21300000, guid: db6d033004bdf1147b0ef5a83d6ff9c0, type: 3}
+  - {fileID: 21300000, guid: d2001f986a4f167449a44683da114d81, type: 3}
   maxHealth: 6
   speedModifier: 1
 --- !u!114 &11454460
@@ -2178,6 +2186,7 @@ MonoBehaviour:
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.3
   m_IsGrounded: 0
+  m_Crouching: 0
 --- !u!114 &11488778
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2474,6 +2483,10 @@ Prefab:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
+      propertyPath: hpImages.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
@@ -2525,6 +2538,40 @@ Prefab:
       propertyPath: actions.Array.data[2]
       value: 
       objectReference: {fileID: 11407080}
+    - target: {fileID: 0}
+      propertyPath: hpImages.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hpImages.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: fa87adb8d60a8584aa83ae3bb6fcebdf,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: hpImages.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f9f3e312066e9e499c75ec3e2fcdb38,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: hpImages.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 071f7153d995cc14aaed6337bdfccfde,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: hpImages.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8bcd8ce3283592b4a8df0100e195c59c,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: hpImages.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: db6d033004bdf1147b0ef5a83d6ff9c0,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: hpImages.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300000, guid: d2001f986a4f167449a44683da114d81,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 177922}
