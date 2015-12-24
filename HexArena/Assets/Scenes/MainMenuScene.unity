@@ -1432,7 +1432,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9bc675e36b62e174bab1762a34a6b329, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 009a29ea249e0d847b3e42ff34d09725, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -4217,6 +4217,7 @@ MonoBehaviour:
   backgroundVolumeSlider: {fileID: 777532998}
   muteBackgroundToggle: {fileID: 1806287402}
   backgroundMusicAudioSource: {fileID: 645353958}
+  popupGameMenu: {fileID: 0}
 --- !u!4 &1894835451
 Transform:
   m_ObjectHideFlags: 0
