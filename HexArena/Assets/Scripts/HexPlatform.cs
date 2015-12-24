@@ -180,7 +180,7 @@ public class HexPlatform : NetworkBehaviour {
 	}
 
 	public void makeExplosive(){
-		if (this.effect != Effect.None || this.state != State.Alive)
+		if (this.effect == Effect.Plagued || this.state != State.Alive)
 			return;
 
 		this.effect = Effect.Explosive;
