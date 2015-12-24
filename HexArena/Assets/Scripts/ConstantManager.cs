@@ -17,6 +17,9 @@ public class ConstantManager : MonoBehaviour {
 	public const float platformDeathTimer = 4.0f;
 	public const float platformFadeTimer = 1.0f;
 
+	// abilities
+	public const float blinkDistance = 5f; // * transform.forward
+
 	// platform events
 	public const int muddyColor = 0xFFFF00;
 	public const float muddySpeedModifier = 0.25f;

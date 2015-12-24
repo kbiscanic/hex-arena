@@ -34,7 +34,7 @@ public class LaunchDirectProjectile : Action
 		if (currentCooldown <= 0/* && enemy != null*/) {
 			Debug.Log (description + " cast.");
 
-			CmdSpawnProjectile (player, player.transform.forward);
+			CmdSpawnProjectile (player);
 
 			currentCooldown = cooldown;
 			//} else if (enemy == null) {
@@ -52,14 +52,14 @@ public class LaunchDirectProjectile : Action
 	}
 
 	[Command]
-	void CmdSpawnProjectile (GameObject player, Vector3 direction)
+	void CmdSpawnProjectile (GameObject player)
 	{
 		Transform spawnLocation = findFirstDescendantWithName (player.transform, "LeftHand"); // TODO modify?
 		GameObject projectile = Instantiate (projectilePrefab, spawnLocation.position, Quaternion.identity) as GameObject;
 		projectile.transform.SetParent (spawnLocation);
 		NetworkServer.Spawn (projectile);
 		projectile.GetComponent<BasicProjectile> ().owner = player.name;
-		StartCoroutine (launch (projectile, direction));
+		StartCoroutine (launch (projectile));
 
 		RpcAnimate (player.name, "CastDirectProjectile");
 
@@ -68,7 +68,7 @@ public class LaunchDirectProjectile : Action
 		Destroy (projectile, 5.0f);
 	}
 
-	IEnumerator launch (GameObject projectile, Vector3 direction)
+	IEnumerator launch (GameObject projectile)
 	{
 		yield return new WaitForSeconds (castingTime);
 		if (projectile != null) {
@@ -80,7 +80,7 @@ public class LaunchDirectProjectile : Action
 			} else {
 				//movement.setTarget (findFirstDescendantWithName (enemy.transform, "Neck").position); // enemy target version
 				//movement.setTarget(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10))); // mouse aim version
-				movement.setDirection (direction); // forward launch version
+				movement.setDirection (player.transform.forward); // forward launch version
 			}
 		}
 	}

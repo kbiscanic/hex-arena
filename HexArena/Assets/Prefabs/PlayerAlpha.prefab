@@ -803,6 +803,7 @@ GameObject:
   - 114: {fileID: 11447700}
   - 114: {fileID: 11499008}
   - 114: {fileID: 11454460}
+  - 114: {fileID: 11407080}
   m_Layer: 8
   m_Name: PlayerAlpha
   m_TagString: Untagged
@@ -2045,6 +2046,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ebe5b8de1719af448c2c8bc02d3eddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11407080
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 177922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9c1c4be82274944291848051141c04a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 7
+  currentCooldown: 0
+  castingTime: 1
+  description: Blink
+  key: 51
 --- !u!114 &11421348
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2121,6 +2138,7 @@ MonoBehaviour:
   actions:
   - {fileID: 11499008}
   - {fileID: 11454460}
+  - {fileID: 11407080}
   maxHealth: 6
   speedModifier: 1
 --- !u!114 &11454460
@@ -2134,9 +2152,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bf46faa7c1ad334a8e53e71f3ea2055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldown: 15
+  cooldown: 10
   currentCooldown: 0
-  castingTime: 1.5
+  castingTime: 1
   description: Plant Object
   key: 50
   objectPrefab: {fileID: 182522, guid: 0b2788f687c1fa9408ce86f45d872102, type: 2}
@@ -2453,7 +2471,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: actions.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_TagString
@@ -2489,12 +2507,24 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: castingTime
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: cooldown
-      value: 15
+      value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: key
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: description
+      value: Blink
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: actions.Array.data[2]
+      value: 
+      objectReference: {fileID: 11407080}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 177922}
