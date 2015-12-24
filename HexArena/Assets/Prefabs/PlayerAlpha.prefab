@@ -801,6 +801,8 @@ GameObject:
   - 114: {fileID: 11400946}
   - 114: {fileID: 11424136}
   - 114: {fileID: 11447700}
+  - 114: {fileID: 11499008}
+  - 114: {fileID: 11454460}
   m_Layer: 8
   m_Name: PlayerAlpha
   m_TagString: Untagged
@@ -2116,7 +2118,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402b40ffc6468b24789a20c3b6afbe52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions:
+  - {fileID: 11499008}
+  - {fileID: 11454460}
   maxHealth: 6
+--- !u!114 &11454460
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 177922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bf46faa7c1ad334a8e53e71f3ea2055, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 5
+  currentCooldown: 0
+  castingTime: 0.5
+  description: Plant Object
+  key: 50
+  objectPrefab: {fileID: 182522, guid: 0b2788f687c1fa9408ce86f45d872102, type: 2}
 --- !u!114 &11473052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2156,6 +2178,23 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 15
   m_InterpolateMovement: 15
+--- !u!114 &11499008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 177922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895172b9228a2bd4883c3ee831d17330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cooldown: 2
+  currentCooldown: 0
+  castingTime: 0.3
+  description: Direct Projectile
+  key: 49
+  projectilePrefab: {fileID: 117544, guid: a16a2b7db1814414dbfb021f59802422, type: 2}
 --- !u!136 &13679462
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -2411,6 +2450,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: actions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
@@ -2426,6 +2469,18 @@ Prefab:
       propertyPath: maxHealth
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: actions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11499008}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: actions.Array.data[1]
+      value: 
+      objectReference: {fileID: 11454460}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 177922}

@@ -1,37 +1,41 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class DeathCollider : MonoBehaviour {
+public class DeathCollider : MonoBehaviour
+{
 
-	public string playerDeathScene = "GameOverScene";
+	public int playerDeathScene = 2;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		
 	}
 
-	IEnumerator killPlayer(GameObject player){
+	IEnumerator killPlayer (GameObject player)
+	{
 		Destroy (player);
 
 		yield return new WaitForSeconds (3);
 
-		Application.LoadLevel (playerDeathScene);
+		SceneManager.LoadScene (playerDeathScene);
 	}
 
-	void OnTriggerEnter(Collider other){
+	void OnTriggerEnter (Collider other)
+	{
 		if (other.tag == ConstantManager.playerTag) {
 			StartCoroutine (killPlayer (other.gameObject));
-		}
-		else if (other.tag == ConstantManager.enemyTag) {
+		} else if (other.tag == ConstantManager.enemyTag) {
 			Destroy (other.gameObject);
-		}
-		else if (other.tag == ConstantManager.projectileTag) {
-			Destroy(other.gameObject);
+		} else if (other.tag == ConstantManager.projectileTag) {
+			Destroy (other.gameObject);
 		}
 	}
 }

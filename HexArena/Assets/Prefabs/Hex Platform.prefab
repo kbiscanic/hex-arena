@@ -11,6 +11,7 @@ GameObject:
   - 64: {fileID: 6413744}
   - 114: {fileID: 11448042}
   - 54: {fileID: 5422502}
+  - 114: {fileID: 11449148}
   m_Layer: 0
   m_Name: Hex Platform
   m_TagString: Platform
@@ -131,6 +132,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb9870005e0e6cf408cc3352ecfccc8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plaguedColor: {r: 0.7, g: 0, b: 0, a: 1}
+--- !u!114 &11449148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 98
+    i1: 116
+    i2: 70
+    i3: 168
+    i4: 16
+    i5: 61
+    i6: 110
+    i7: 196
+    i8: 187
+    i9: 221
+    i10: 210
+    i11: 211
+    i12: 185
+    i13: 225
+    i14: 59
+    i15: 216
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -153,6 +187,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Platform
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ServerOnly
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

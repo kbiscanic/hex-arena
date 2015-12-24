@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlatformEvents : MonoBehaviour {
+public class PlatformEvents : NetworkBehaviour {
 	[Tooltip("All platforms will be renamed to this")]
 	public string platformGenericName = "HexPlatform"; // + platform index
 	public float autoActivateSuddenDeath = 30f;
@@ -17,15 +18,22 @@ public class PlatformEvents : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		platforms = GameObject.FindGameObjectsWithTag (ConstantManager.platformTag);
-		for (int i = 0; i < platforms.Length; i++)
-			platforms [i].name = platformGenericName + " " + i;
+		if (!isServer) {
+			return;
+		}
+			platforms = GameObject.FindGameObjectsWithTag (ConstantManager.platformTag);
+			for (int i = 0; i < platforms.Length; i++)
+				platforms [i].name = platformGenericName + " " + i;
 
-		print (platforms.Length + " platforms found in total. Renaming.");
+			print (platforms.Length + " platforms found in total. Renaming.");
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (!isServer) {
+			return;
+		}
+
 		if (!spreadingDeath && (autoActivateSuddenDeath -= Time.deltaTime) <= 0)
 			activateDeathSpread (Vector3.zero);
 		else if (spreadingDeath && (spreadTime += Time.deltaTime) >= spreadInterval) {

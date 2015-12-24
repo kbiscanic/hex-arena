@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
 public class LaunchDirectProjectile : Action {
@@ -10,7 +11,9 @@ public class LaunchDirectProjectile : Action {
 	Animator playerAnimator;
 
 	// Use this for initialization
-	void Start () {
+	public override void Start () {
+		base.Start ();
+
 		if (projectilePrefab == null) {
 			Debug.LogWarning (
 				"The " + description + " ability is missing a projectile prefab.");
@@ -19,6 +22,7 @@ public class LaunchDirectProjectile : Action {
 	
 	// Update is called once per frame
 	public override void Update () {
+
 		base.Update ();
 
 		if (player == null) 
@@ -36,9 +40,8 @@ public class LaunchDirectProjectile : Action {
 			playerAnimator.SetTrigger ("CastDirectProjectile");
 
 			Transform spawnLocation = findFirstDescendantWithName (player.transform, "LeftHand"); // TODO modify?
-			GameObject projectile = Instantiate (projectilePrefab, spawnLocation.position, Quaternion.identity) as GameObject;
-			projectile.transform.SetParent (spawnLocation);
-			StartCoroutine (launch (projectile));
+
+			CmdSpawnProjectile (spawnLocation.position + player.transform.forward * 0.5f, player.transform.forward);
 
 			currentCooldown = cooldown;
 		//} else if (enemy == null) {
@@ -48,7 +51,17 @@ public class LaunchDirectProjectile : Action {
 		}
 	}
 
-	IEnumerator launch(GameObject projectile){
+	[Command]
+	void CmdSpawnProjectile(Vector3 spawnLocation, Vector3 direction){
+		GameObject projectile = Instantiate (projectilePrefab, spawnLocation, Quaternion.identity) as GameObject;
+		//projectile.transform.SetParent (spawnLocation);
+		NetworkServer.Spawn (projectile);
+		StartCoroutine (launch (projectile, direction));
+
+		Destroy(projectile, 5.0f);
+	}
+
+	IEnumerator launch(GameObject projectile, Vector3 direction){
 		yield return new WaitForSeconds (castingTime);
 		if (projectile != null) {
 			projectile.transform.SetParent (null);
@@ -59,7 +72,7 @@ public class LaunchDirectProjectile : Action {
 			} else {
 				//movement.setTarget (findFirstDescendantWithName (enemy.transform, "Neck").position); // enemy target version
 				//movement.setTarget(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10))); // mouse aim version
-				movement.setDirection(player.transform.forward); // forward launch version
+				movement.setDirection(direction); // forward launch version
 			}
 		}
 	}

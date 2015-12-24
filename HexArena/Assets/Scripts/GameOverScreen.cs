@@ -4,7 +4,7 @@ using System.Collections;
 public class GameOverScreen : MonoBehaviour {
 
 	public string mainMenuSceneName = "MainMenuScene";
-	float screenDuration=3.0f;
+	// float screenDuration=3.0f;
 
 	// Use this for initialization
 	void Start () {

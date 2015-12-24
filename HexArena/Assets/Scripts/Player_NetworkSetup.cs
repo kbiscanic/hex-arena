@@ -15,7 +15,6 @@ public class Player_NetworkSetup : NetworkBehaviour
 
 	public override void OnStartLocalPlayer ()
 	{
-		this.tag = ConstantManager.playerTag;
 		GetComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl> ().enabled = true;
 
 		GetNetIdentity ();
@@ -35,7 +34,7 @@ public class Player_NetworkSetup : NetworkBehaviour
 		myTransform = transform;
 	}
 
-	void Start () 
+	void Start ()
 	{
 		netClient = GameObject.Find ("Network Manager").GetComponent<NetworkManager> ().client;
 		latencyText = GameObject.Find ("LatencyText").GetComponent<Text> ();
@@ -43,7 +42,7 @@ public class Player_NetworkSetup : NetworkBehaviour
 
 	void Update ()
 	{
-		if (myTransform.name.Contains("Clone") || myTransform.name == "") {
+		if (myTransform.name.Contains ("Clone") || myTransform.name == "") {
 			SetIdentity ();
 		}
 
@@ -54,8 +53,10 @@ public class Player_NetworkSetup : NetworkBehaviour
 	{
 		if (!isLocalPlayer) {
 			myTransform.name = playerUniqueId;
+			this.tag = ConstantManager.enemyTag;
 		} else {
 			myTransform.name = MakeUniqueId ();
+			this.tag = ConstantManager.playerTag;
 		}
 	}
 
@@ -78,7 +79,7 @@ public class Player_NetworkSetup : NetworkBehaviour
 		playerUniqueId = id;
 	}
 
-	void ShowLatency() 
+	void ShowLatency ()
 	{
 		if (isLocalPlayer) {
 			latency = netClient.GetRTT ();

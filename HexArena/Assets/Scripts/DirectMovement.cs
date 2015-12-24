@@ -10,6 +10,10 @@ public class DirectMovement : Movement {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!isServer) {
+			return;
+		}
+
 		this.transform.position += Vector3.Scale (direction, speed) * Time.deltaTime;
 	}
 }

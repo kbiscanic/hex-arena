@@ -1,25 +1,35 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class BasicProjectile : MonoBehaviour {
+public class BasicProjectile : NetworkBehaviour
+{
 
 	public int attackDamage = 1;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
 
-	void OnTriggerEnter(Collider other){
-		if (other.tag == ConstantManager.enemyTag)
+	void OnTriggerEnter (Collider other)
+	{
+		if (!isServer) {
+			return;
+		}
+
+		if (other.GetComponent<CharacterActions> () != null) {
 			other.GetComponent<CharacterActions> ().modifyHealth (-attackDamage);
+		}
 			
-		if (other.tag != ConstantManager.playerTag)
+		//if (other.tag != ConstantManager.playerTag)
 			Destroy (this.gameObject);
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
 public class PlantObject : Action {
@@ -9,7 +10,9 @@ public class PlantObject : Action {
 	Animator playerAnimator;
 
 	// Use this for initialization
-	void Start () {
+	public override void Start () {
+		base.Start ();
+
 		if (objectPrefab == null) {
 			Debug.LogWarning (
 				"The " + description + " ability is missing an object prefab.");
@@ -33,14 +36,24 @@ public class PlantObject : Action {
 			playerAnimator.SetTrigger ("PlantObject");
 
 			Transform spawnLocation = findFirstDescendantWithName (player.transform, "RightHand"); // TODO modify?
-			GameObject plantedObject = Instantiate (objectPrefab, spawnLocation.position, Quaternion.identity) as GameObject;
-			plantedObject.transform.SetParent (spawnLocation);
-			StartCoroutine (plant (plantedObject));
+
+			CmdPlant (spawnLocation.position);
 
 			currentCooldown = cooldown;
 		} else {
 			Debug.Log (description + " on cooldown.");
 		}
+	}
+
+	[Command]
+	void CmdPlant(Vector3 spawnLocation){
+		GameObject plantedObject = Instantiate (objectPrefab, spawnLocation, Quaternion.identity) as GameObject;
+		//plantedObject.transform.SetParent (spawnLocation);
+
+		NetworkServer.Spawn (plantedObject);
+		StartCoroutine (plant (plantedObject));
+
+		Destroy(plantedObject, 15.0f);
 	}
 
 	IEnumerator plant(GameObject plantedObject){

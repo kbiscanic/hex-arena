@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class HexPlatform : MonoBehaviour {
+public class HexPlatform : NetworkBehaviour {
 
 	enum State {
 		Alive, Dying, Dead, Reviving
@@ -13,22 +14,32 @@ public class HexPlatform : MonoBehaviour {
 	float deathTimer = 0;
 	float fadeTimer = 0;
 	bool permaDead = false;
+	[SyncVar (hook = "OnColorChange")] public Color color;
+	[SyncVar (hook = "OnColliderChange")] public bool colliderOn = true;
 
 	private Renderer rend;
 
 	// Use this for initialization
 	void Start () {
 		rend = this.GetComponentInChildren<Renderer> ();
+		this.color = rend.material.GetColor("_Color");
 	}
 
 	// Update is called once per frame
 	void Update () {
+		if (!isServer) {
+			return;
+		}
+			
 		if (state == State.Dying) {
 			fadeTimer -= Time.deltaTime;
 
-			Color tmpColor = rend.material.color;
-			tmpColor.a = fadeTimer / ConstantManager.platformFadeTimer;
-			rend.material.SetColor ("_Color", tmpColor);
+			Color tmp = rend.material.color;
+			tmp.a = fadeTimer / ConstantManager.platformFadeTimer;
+
+			this.color = tmp;
+
+			rend.material.SetColor ("_Color", this.color);
 
 			if (fadeTimer <= 0) {
 				state = State.Dead;
@@ -37,12 +48,16 @@ public class HexPlatform : MonoBehaviour {
 		} else if (state == State.Reviving) {
 			fadeTimer -= Time.deltaTime;
 
-			Color tmpColor = rend.material.color;
-			tmpColor.a = 1 - fadeTimer / ConstantManager.platformFadeTimer;
-			rend.material.SetColor ("_Color", tmpColor);
+			Color tmp = rend.material.color;
+			tmp.a = 1 - fadeTimer / ConstantManager.platformFadeTimer;
+
+			this.color = tmp;
+
+			rend.material.SetColor ("_Color", this.color);
 
 			if (fadeTimer <= 0) {
 				state = State.Alive;
+				this.colliderOn = true;
 				this.GetComponentInChildren<Collider> ().enabled = true;
 			}
 		} else if (state == State.Dead) {
@@ -55,7 +70,21 @@ public class HexPlatform : MonoBehaviour {
 		}
 	}
 
+	void OnColorChange(Color clr){
+		this.color = clr;
+		rend.material.SetColor ("_Color", color);
+	}
+
+	void OnColliderChange(bool collider){
+		this.colliderOn = collider;
+		this.GetComponentInChildren<Collider> ().enabled = this.colliderOn;
+	}
+
 	void OnCollisionEnter(Collision col){
+		if (!isServer) {
+			return;
+		}
+
 		Transform otherObject = col.transform;
 
 		if (otherObject.tag == ConstantManager.playerTag)
@@ -73,6 +102,7 @@ public class HexPlatform : MonoBehaviour {
 		
 		state = State.Dying;
 		fadeTimer = ConstantManager.platformFadeTimer;
+		this.colliderOn = false;
 		this.GetComponentInChildren<Collider> ().enabled = false;
 	}
 
@@ -81,6 +111,7 @@ public class HexPlatform : MonoBehaviour {
 		if (state != State.Alive)
 			yield break;
 		rend.material.SetColor ("_Color", plaguedColor);
+		this.color = plaguedColor;
 		yield return new WaitForSeconds (timer);
 		killPlatform ();
 	}

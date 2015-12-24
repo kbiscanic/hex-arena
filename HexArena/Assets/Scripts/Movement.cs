@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class Movement : MonoBehaviour {
+public class Movement : NetworkBehaviour {
 
 	public Vector3 speed;
 	[HideInInspector]

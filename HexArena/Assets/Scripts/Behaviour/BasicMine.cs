@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class BasicMine : MonoBehaviour {
+public class BasicMine : NetworkBehaviour {
 
 	public float tickingDuration = 3;
 	public float explosionDuration;
@@ -17,6 +18,10 @@ public class BasicMine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!isServer) {
+			return;
+		}
+
 		timer += Time.deltaTime;
 		if (timer >= tickingDuration) {
 			StartCoroutine (explode ());
@@ -24,13 +29,15 @@ public class BasicMine : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
+		if (!isServer) {
+			return;
+		}
+
 		if (!exploded)
 			return;
 	
 		if (other.tag == ConstantManager.platformTag)
 			other.GetComponent<HexPlatform> ().killPlatform ();
-
-		print ("DEBUG: Mine collided with " + other.name);
 	}
 
 	IEnumerator explode(){

@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class Action : MonoBehaviour
+public class Action : NetworkBehaviour
 {
 
 	public float cooldown = 0f;
@@ -9,8 +10,13 @@ public class Action : MonoBehaviour
 	public float currentCooldown = 0f;
 	public float castingTime = 0.3f;
 	public string description;
-	public Image cdIcon;
 	public KeyCode key;
+
+	Image cdIcon;
+
+	public virtual void Start() {
+		cdIcon = GameObject.Find (description + " CD").GetComponent<Image> ();
+	}
 
 	public virtual void Execute () {
 		if (currentCooldown <= 10e-6) {
