@@ -504,7 +504,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformPrefab: {fileID: 192004, guid: ef5edb4fd9f7a9546a01334bbe5eec8a, type: 2}
   platformGenericName: HexPlatform
-  autoActivateSuddenDeath: 30
+  autoActivateSuddenDeath: 120
   spreadInterval: 2
   spreadCountPerTick: 2
   platformDeathTime: 1
@@ -1626,7 +1626,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 25369598588fea349affae8e0d06bf37, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c8b4efd656ad1314591f7063bc9a624a, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
