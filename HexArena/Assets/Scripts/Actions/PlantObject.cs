@@ -35,9 +35,7 @@ public class PlantObject : Action {
 
 			playerAnimator.SetTrigger ("PlantObject");
 
-			Transform spawnLocation = findFirstDescendantWithName (player.transform, "RightHand"); // TODO modify?
-
-			CmdPlant (spawnLocation.position);
+			CmdPlant (player);
 
 			currentCooldown = cooldown;
 		} else {
@@ -46,9 +44,11 @@ public class PlantObject : Action {
 	}
 
 	[Command]
-	void CmdPlant(Vector3 spawnLocation){
-		GameObject plantedObject = Instantiate (objectPrefab, spawnLocation, Quaternion.identity) as GameObject;
-		//plantedObject.transform.SetParent (spawnLocation);
+	void CmdPlant(GameObject player){
+		Transform spawnLocation = findFirstDescendantWithName (player.transform, "RightHand"); // TODO modify?
+
+		GameObject plantedObject = Instantiate (objectPrefab, spawnLocation.position, Quaternion.identity) as GameObject;
+		plantedObject.transform.SetParent (spawnLocation);
 
 		NetworkServer.Spawn (plantedObject);
 		StartCoroutine (plant (plantedObject));

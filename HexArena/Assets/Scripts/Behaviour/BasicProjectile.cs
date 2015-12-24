@@ -7,6 +7,8 @@ public class BasicProjectile : NetworkBehaviour
 
 	public int attackDamage = 1;
 
+	public string owner = "";
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -21,7 +23,7 @@ public class BasicProjectile : NetworkBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (!isServer) {
+		if (!isServer || other.name == owner) {
 			return;
 		}
 
@@ -29,7 +31,7 @@ public class BasicProjectile : NetworkBehaviour
 			other.GetComponent<CharacterActions> ().modifyHealth (-attackDamage);
 		}
 			
-		//if (other.tag != ConstantManager.playerTag)
-			Destroy (this.gameObject);
+		// if (other.tag != ConstantManager.playerTag)
+		Destroy (this.gameObject);
 	}
 }
