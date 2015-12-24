@@ -59,7 +59,7 @@ public class PlantObject : Action {
 
 	[Command]
 	void CmdPlant(GameObject player){
-		GameObject platform = findClosestPlatform (player.transform.position);
+		GameObject platform = findClosestPlatform (player.transform.position + player.transform.forward * 0.6f);
 
 		if (platform != null)
 			platform.GetComponent<HexPlatform> ().Invoke ("makeExplosive", castingTime);
