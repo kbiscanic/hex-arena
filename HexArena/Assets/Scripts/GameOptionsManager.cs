@@ -14,6 +14,10 @@ public class GameOptionsManager : MonoBehaviour {
     public AudioSource backgroundMusicAudioSource;
 
     public GameObject popupGameMenu;
+
+	public GameObject winnerPanel;
+	public GameObject loserPanel;
+
     private bool optionsPopupEnabled = false;
 
     private const string MASTER_VOLUME_LEVEL_KEY = "MasterVolume";

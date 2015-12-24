@@ -20,6 +20,9 @@ public class CharacterProperties : NetworkBehaviour
 	private Text playerHealth;
 	private Text enemyHealth;
 
+	private GameOptionsManager gom; 
+	private GameObject loserPanel;
+
 	private ThirdPersonCharacter tpc;
 
 	// Use this for initialization
@@ -27,6 +30,8 @@ public class CharacterProperties : NetworkBehaviour
 	{
 		playerHealth = GameObject.Find ("PlayerHealth").GetComponent<Text> ();
 		enemyHealth = GameObject.Find ("EnemyHealth").GetComponent<Text> ();
+
+		gom = GameObject.Find ("_Game Options Manager_").GetComponent<GameOptionsManager> ();
 
 		if (isServer) {
 			health = maxHealth;
@@ -75,21 +80,26 @@ public class CharacterProperties : NetworkBehaviour
 	public void modifyHealth (int change)
 	{
 		health += change;
-		if (health <= 0) {
-			killCharacter ();
-		}
-		ShowHP ();
 	}
 
 	public void killCharacter ()
 	{
+		Time.timeScale = 0.0f;
+		if (isLocalPlayer) {
+			gom.loserPanel.SetActive (true);
+		} else {
+			gom.winnerPanel.SetActive (true);
+		}
 		// animate death
-		Destroy (this.gameObject);
+		// Destroy (this.gameObject);
 	}
 
 	void OnHealthChanged (int hp)
 	{
 		health = hp;
+		if (health <= 0) {
+			killCharacter ();
+		}
 		ShowHP ();
 	}
 
