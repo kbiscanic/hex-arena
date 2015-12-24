@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class DeathCollider : MonoBehaviour
+public class DeathCollider : NetworkBehaviour
 {
 
 	public int playerDeathScene = 2;
@@ -30,12 +31,12 @@ public class DeathCollider : MonoBehaviour
 
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.tag == ConstantManager.playerTag) {
-			StartCoroutine (killPlayer (other.gameObject));
-		} else if (other.tag == ConstantManager.enemyTag) {
-			Destroy (other.gameObject);
-		} else if (other.tag == ConstantManager.projectileTag) {
-			Destroy (other.gameObject);
+		if (!isServer) {
+			return;
+		}
+
+		if (other.GetComponent<CharacterProperties> () != null) {
+			other.GetComponent<CharacterProperties> ().modifyHealth (-100);
 		}
 	}
 }
