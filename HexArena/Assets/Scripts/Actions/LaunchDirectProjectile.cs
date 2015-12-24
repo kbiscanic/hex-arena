@@ -59,7 +59,7 @@ public class LaunchDirectProjectile : Action
 		projectile.transform.SetParent (spawnLocation);
 		NetworkServer.Spawn (projectile);
 		projectile.GetComponent<BasicProjectile> ().owner = player.name;
-		StartCoroutine (launch (projectile));
+		StartCoroutine (launch (projectile, player));
 
 		RpcAnimate (player.name, "CastDirectProjectile");
 
@@ -68,7 +68,7 @@ public class LaunchDirectProjectile : Action
 		Destroy (projectile, 5.0f);
 	}
 
-	IEnumerator launch (GameObject projectile)
+	IEnumerator launch (GameObject projectile, GameObject player)
 	{
 		yield return new WaitForSeconds (castingTime);
 		if (projectile != null) {
