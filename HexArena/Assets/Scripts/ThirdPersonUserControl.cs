@@ -76,6 +76,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			else if (h != 0 && v != 0){
 				m_Move *= 2;
 			}
+			m_Move *= this.GetComponent<CharacterProperties>().speedModifier;
 #endif
 
             // pass all parameters to the character control script

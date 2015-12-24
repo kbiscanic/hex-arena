@@ -6,6 +6,8 @@ using System.Collections.Generic;
 public class PlatformEvents : NetworkBehaviour {
 	[Tooltip("All platforms will be renamed to this")]
 	public string platformGenericName = "HexPlatform"; // + platform index
+
+	[Header("Skill constants")] // TODO move these fields to ConstantManager
 	public float autoActivateSuddenDeath = 30f;
 	public float spreadInterval = 2f;
 	public int spreadCountPerTick = 2;
@@ -13,7 +15,9 @@ public class PlatformEvents : NetworkBehaviour {
 
 	GameObject[] platforms;
 	bool spreadingDeath = false;
-	public float spreadTime = 0;
+	float spreadTime = 0;
+	float mudTime = 8f; // initial spawning offset
+	float iceTime = 4f; // initial spawning offset
 	int spreadCount = 0;
 
 	// Use this for initialization
@@ -39,10 +43,24 @@ public class PlatformEvents : NetworkBehaviour {
 		else if (spreadingDeath && (spreadTime += Time.deltaTime) >= spreadInterval) {
 			spreadTime = 0;
 			for (int i = spreadCount; i < spreadCount + spreadCountPerTick && i < platforms.Length; i++)
-				StartCoroutine(platforms[i].GetComponent<HexPlatform>().killPlatformAfter (platformDeathTime));
+				StartCoroutine(platforms[i].GetComponent<HexPlatform>().makePlagued (platformDeathTime));
 			spreadCount += spreadCountPerTick;
 		}
 
+		if ((mudTime += Time.deltaTime) >= ConstantManager.muddySpawnInterval) {
+			mudTime = 0;
+			for (int i = 0; i < ConstantManager.muddyCountPerTick; i++) {
+				int platformIndex = Random.Range (0, platforms.Length);
+				platforms [platformIndex].GetComponent<HexPlatform>().makeMuddy ();
+			}
+		}
+		if ((iceTime += Time.deltaTime) >= ConstantManager.icySpawnInterval) {
+			iceTime = 0;
+			for (int i = 0; i < ConstantManager.icyCountPerTick; i++) {
+				int platformIndex = Random.Range (0, platforms.Length);
+				platforms [platformIndex].GetComponent<HexPlatform>().makeIcy ();
+			}
+		}
 	}
 
 	public void activateDeathSpread(Vector3 origin){
@@ -60,7 +78,7 @@ public class PlatformEvents : NetworkBehaviour {
 
 		platforms = temp.ToArray ();
 		if (platforms.Length > 0) {
-			StartCoroutine(platforms [0].GetComponent<HexPlatform> ().killPlatformAfter (platformDeathTime));
+			StartCoroutine(platforms [0].GetComponent<HexPlatform> ().makePlagued (platformDeathTime));
 			spreadCount++;
 		}
 	}

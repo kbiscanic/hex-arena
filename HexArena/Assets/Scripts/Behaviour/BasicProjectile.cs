@@ -27,8 +27,8 @@ public class BasicProjectile : NetworkBehaviour
 			return;
 		}
 
-		if (other.GetComponent<CharacterActions> () != null) {
-			other.GetComponent<CharacterActions> ().modifyHealth (-attackDamage);
+		if (other.GetComponent<CharacterProperties> () != null) {
+			other.GetComponent<CharacterProperties> ().modifyHealth (-attackDamage);
 		}
 			
 		// if (other.tag != ConstantManager.playerTag)

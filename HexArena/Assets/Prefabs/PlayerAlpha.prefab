@@ -2115,13 +2115,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 177922}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 402b40ffc6468b24789a20c3b6afbe52, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f0911fac43f0a64dbcd94c8829381b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
   - {fileID: 11499008}
   - {fileID: 11454460}
   maxHealth: 6
+  speedModifier: 1
 --- !u!114 &11454460
 MonoBehaviour:
   m_ObjectHideFlags: 1

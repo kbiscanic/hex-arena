@@ -8,12 +8,17 @@ public class HexPlatform : NetworkBehaviour {
 		Alive, Dying, Dead, Reviving
 	}
 
-	public Color plaguedColor = new Color(0.7f, 0, 0);
+	enum Effect {
+		None, Plagued, Muddy, Icy
+	}
+
+	public Color defaultColor;
 
 	State state = State.Alive;
+	Effect effect = Effect.None;
 	float deathTimer = 0;
 	float fadeTimer = 0;
-	bool permaDead = false;
+	float effectTimer = 0;
 	[SyncVar (hook = "OnColorChange")] public Color color;
 	[SyncVar (hook = "OnColliderChange")] public bool colliderOn = true;
 
@@ -23,6 +28,7 @@ public class HexPlatform : NetworkBehaviour {
 	void Start () {
 		rend = this.GetComponentInChildren<Renderer> ();
 		this.color = rend.material.GetColor("_Color");
+		defaultColor = this.color;
 	}
 
 	// Update is called once per frame
@@ -63,10 +69,19 @@ public class HexPlatform : NetworkBehaviour {
 		} else if (state == State.Dead) {
 			deathTimer -= Time.deltaTime;
 
-			if (deathTimer <= 0 && !permaDead) {
+			if (deathTimer <= 0 && effect != Effect.Plagued) {
 				state = State.Reviving;
 				fadeTimer = ConstantManager.platformFadeTimer;
 			}
+		}
+
+		if (effect == Effect.Muddy && (effectTimer -= Time.deltaTime) <= 0) {
+			effect = Effect.None;
+			rend.material.SetColor ("_Color", defaultColor);
+		}
+		else if (effect == Effect.Icy && (effectTimer -= Time.deltaTime) <= 0) {
+			effect = Effect.None;
+			rend.material.SetColor ("_Color", defaultColor);
 		}
 	}
 
@@ -87,15 +102,35 @@ public class HexPlatform : NetworkBehaviour {
 
 		Transform otherObject = col.transform;
 
-		if (otherObject.tag == ConstantManager.playerTag)
+		if (otherObject.tag == ConstantManager.playerTag) {
+			if (effect == Effect.Muddy)
+				otherObject.GetComponent<CharacterProperties> ().modifySpeed (ConstantManager.muddySpeedModifier, ConstantManager.muddySlowLinger);
+			else if (effect == Effect.Icy)
+				otherObject.GetComponent<CharacterProperties> ().modifySpeed (ConstantManager.icySpeedModifier, ConstantManager.icySpeedLinger);
 			return;
-		
-		if (otherObject.tag == ConstantManager.projectileTag) {
+		}
+		else if (otherObject.tag == ConstantManager.projectileTag) {
 			// example; can depend on projectile type or whatever else
 			killPlatform();
 		}
 	}
 
+	void OnCollisionStay(Collision col){
+		if (!isServer) {
+			return;
+		}
+
+		Transform otherObject = col.transform;
+
+		if (otherObject.tag == ConstantManager.playerTag) {
+			if (effect == Effect.Muddy)
+				otherObject.GetComponent<CharacterProperties> ().modifySpeed (ConstantManager.muddySpeedModifier, ConstantManager.muddySlowLinger);
+			else if (effect == Effect.Icy)
+				otherObject.GetComponent<CharacterProperties> ().modifySpeed (ConstantManager.icySpeedModifier, ConstantManager.icySpeedLinger);
+			return;
+		}
+	}
+		
 	public void killPlatform(){
 		if (state != State.Alive)
 			return;
@@ -106,14 +141,38 @@ public class HexPlatform : NetworkBehaviour {
 		this.GetComponentInChildren<Collider> ().enabled = false;
 	}
 
-	public IEnumerator killPlatformAfter(float timer){
-		permaDead = true;
+	public IEnumerator makePlagued(float timer){
+		this.effect = Effect.Plagued;
 		if (state != State.Alive)
 			yield break;
-		rend.material.SetColor ("_Color", plaguedColor);
-		this.color = plaguedColor;
+		Color temp = ConstantManager.ToColor (ConstantManager.plaguedColor);
+		rend.material.SetColor ("_Color", temp);
+		this.color = temp;
 		yield return new WaitForSeconds (timer);
 		killPlatform ();
 	}
 
+	public void makeMuddy(){
+		if (this.effect != Effect.None || this.state != State.Alive)
+			return;
+
+		this.effect = Effect.Muddy;
+		effectTimer = ConstantManager.muddyDuration;
+
+		Color temp = ConstantManager.ToColor (ConstantManager.muddyColor);
+		rend.material.SetColor ("_Color", temp);
+		this.color = temp;
+	}
+
+	public void makeIcy(){
+		if (this.effect != Effect.None || this.state != State.Alive)
+			return;
+
+		this.effect = Effect.Icy;
+		effectTimer = ConstantManager.icyDuration;
+
+		Color temp = ConstantManager.ToColor (ConstantManager.icyColor);
+		rend.material.SetColor ("_Color", temp);
+		this.color = temp;
+	}
 }
