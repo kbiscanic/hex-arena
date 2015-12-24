@@ -15,7 +15,7 @@ public class HexPlatform : NetworkBehaviour {
 	public Color defaultColor;
 
 	State state = State.Alive;
-	Effect effect = Effect.None;
+	[SyncVar] Effect effect = Effect.None;
 	float deathTimer = 0;
 	float fadeTimer = 0;
 	float effectTimer = 0;
@@ -76,10 +76,12 @@ public class HexPlatform : NetworkBehaviour {
 		if (effect == Effect.Muddy && (effectTimer -= Time.deltaTime) <= 0) {
 			effect = Effect.None;
 			rend.material.SetColor ("_Color", defaultColor);
+			this.color = defaultColor;
 		}
 		else if (effect == Effect.Icy && (effectTimer -= Time.deltaTime) <= 0) {
 			effect = Effect.None;
 			rend.material.SetColor ("_Color", defaultColor);
+			this.color = defaultColor;
 		}
 	}
 
@@ -94,10 +96,6 @@ public class HexPlatform : NetworkBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
-		if (!isServer) {
-			return;
-		}
-
 		Transform otherObject = col.transform;
 
 		if (otherObject.tag == ConstantManager.playerTag) {
@@ -114,10 +112,6 @@ public class HexPlatform : NetworkBehaviour {
 	}
 
 	void OnCollisionStay(Collision col){
-		if (!isServer) {
-			return;
-		}
-
 		Transform otherObject = col.transform;
 
 		if (otherObject.tag == ConstantManager.playerTag) {
@@ -130,6 +124,10 @@ public class HexPlatform : NetworkBehaviour {
 	}
 		
 	public void killPlatform(){
+		if (!isServer) {
+			return;
+		}
+
 		if (state != State.Alive)
 			return;
 		
