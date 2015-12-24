@@ -112,6 +112,7 @@ public class CharacterProperties : NetworkBehaviour
 	{
 		health = hp;
 		if (health <= 0) {
+			health = 0;
 			killCharacter ();
 		}
 		ShowHP ();
