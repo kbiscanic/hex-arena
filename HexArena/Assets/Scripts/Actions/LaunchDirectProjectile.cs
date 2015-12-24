@@ -9,7 +9,7 @@ public class LaunchDirectProjectile : Action
 
 	GameObject player;
 	//GameObject enemy;
-	Animator playerAnimator;
+	NetworkAnimator playerAnimator;
 
 	// Use this for initialization
 	public override void Start ()
@@ -33,7 +33,7 @@ public class LaunchDirectProjectile : Action
 		//	if (enemy == null)
 		//		enemy = GameObject.FindGameObjectWithTag (ConstantManager.enemyTag);
 		if (playerAnimator == null && player != null)
-			playerAnimator = player.GetComponent<Animator> ();
+			playerAnimator = player.GetComponent<NetworkAnimator> ();
 	}
 
 	public override void Execute ()

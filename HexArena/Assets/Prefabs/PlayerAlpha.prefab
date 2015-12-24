@@ -2068,7 +2068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Animator: {fileID: 9514812}
-  m_ParameterSendBits: 0
+  m_ParameterSendBits: 1023
   param0: 
   param1: 
   param2: 
@@ -2481,6 +2481,10 @@ Prefab:
       propertyPath: actions.Array.data[1]
       value: 
       objectReference: {fileID: 11454460}
+    - target: {fileID: 0}
+      propertyPath: m_CullingMode
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 177922}

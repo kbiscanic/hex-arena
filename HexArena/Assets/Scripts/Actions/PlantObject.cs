@@ -7,7 +7,7 @@ public class PlantObject : Action {
 	public GameObject objectPrefab;
 
 	GameObject player;
-	Animator playerAnimator;
+	NetworkAnimator playerAnimator;
 
 	// Use this for initialization
 	public override void Start () {
@@ -26,7 +26,7 @@ public class PlantObject : Action {
 		if (player == null) 
 			player = GameObject.FindGameObjectWithTag (ConstantManager.playerTag);
 		if (playerAnimator == null && player != null)
-			playerAnimator = player.GetComponent<Animator> ();
+			playerAnimator = player.GetComponent<NetworkAnimator> ();
 	}
 
 	public override void Execute(){
