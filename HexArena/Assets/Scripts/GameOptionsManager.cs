@@ -13,6 +13,9 @@ public class GameOptionsManager : MonoBehaviour {
     public Toggle muteBackgroundToggle;
     public AudioSource backgroundMusicAudioSource;
 
+    public GameObject popupGameMenu;
+    private bool optionsPopupEnabled = false;
+
     private const string MASTER_VOLUME_LEVEL_KEY = "MasterVolume";
     private const string AUDIO_MUTED_KEY = "AudioMuted";
     private const string BACKGROUND_VOLUME_LEVEL_KEY = "BackgroundVolume";
@@ -26,6 +29,37 @@ public class GameOptionsManager : MonoBehaviour {
 
     private void Start() {
         InitAudioSettings();
+    }
+
+    private void Update() {
+        if (popupGameMenu != null) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                gameOptionsContainer.SetActive(false);
+                if (popupGameMenu.activeInHierarchy) {
+                    //cancel without saving changes
+                    InitAudioSettings();
+                    popupGameMenu.SetActive(false);
+                }
+                else {
+                    popupGameMenu.SetActive(true);
+                }                
+            }
+        }
+    }
+
+    public void ResumeButtonClick() {
+        if (popupGameMenu != null) {
+            popupGameMenu.SetActive(false);
+        }
+    }
+
+    public void QuitGame() {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        //maybe handle some netcode for game termination, send an I lost packet
+		Application.Quit();
+#endif
     }
 
     private void InitAudioSettings() {
